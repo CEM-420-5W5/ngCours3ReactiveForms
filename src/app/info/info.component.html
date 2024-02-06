@@ -1,0 +1,25 @@
+<div style="width: 100%;height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column">
+  <mat-card class="artist-card" style="margin: 16px; padding: 16px;">
+    <form [formGroup]="loginForm">
+      <mat-form-field style="width: 100%">
+        <input matInput type="email" placeholder="Courriel" formControlName="email" name="email">
+        <mat-error *ngIf="loginForm.get('email')?.errors?.['email'] && !loginForm.get('email')?.hasError('required')">
+          Entrer une adresse courriel valide
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Le courriel est <strong>requis</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field style="width: 100%">
+        <input matInput type="text" placeholder="Votre nom" formControlName="name" name="name">
+        <mat-error *ngIf="loginForm.get('name')?.hasError('required')">
+          Votre nom est <strong>requis</strong>
+        </mat-error>
+        <mat-error *ngIf="loginForm.hasError('nameInEmail')">
+          Le nom doit être dans l'adresse courriel
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Enregistrer</button>
+    </form>
+  </mat-card>
+</div>
