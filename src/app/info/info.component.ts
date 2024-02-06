@@ -53,18 +53,17 @@ export class InfoComponent {
     }
     // On fait notre validation
     let formValid = email.includes(name);
-    // On mets les champs concernés en erreur pour qu'il s'affichent en rouge
-    if(!formValid) {
-      form.get('email')?.setErrors({nameInEmail:true});
-      form.get('name')?.setErrors({nameInEmail:true});
-    } else {
-      //S'il n'y a plus d'erreur, on les efface
-      form.get('email')?.setErrors(null);
-      form.get('name')?.setErrors(null);
-    }
     // Si le formulaire est invalide on retourne l'erreur
     // Si le formulaire est valide on retourne null
     return !formValid?{nameInEmail:true}:null;
+  }
+
+  get name() {
+    return this.loginForm.get('name');
+  }
+
+  get email() {
+    return this.loginForm.get('email');
   }
 
 }
