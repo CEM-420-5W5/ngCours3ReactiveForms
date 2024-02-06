@@ -11,7 +11,7 @@
           Vous devez préférer les chats!
         </mat-error>
         <mat-error *ngIf="catForm.get('questionA')?.hasError('required')">
-          Cettre reponse est <strong>requise</strong>
+          Cettre réponse est <strong>requise</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field style="width: 100%">
@@ -21,7 +21,7 @@
           Vous devez répondre oui!
         </mat-error>
         <mat-error *ngIf="catForm.get('questionB')?.hasError('required')">
-          Cettre reponse est <strong>requise</strong>
+          Cettre réponse est <strong>requise</strong>
         </mat-error>
       </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="!catForm.valid">Enregistrer</button>
