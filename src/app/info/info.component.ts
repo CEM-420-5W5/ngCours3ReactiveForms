@@ -14,11 +14,11 @@ interface LoginData {
 export class InfoComponent {
 
   loginForm:FormGroup<any>;
-  loginData:LoginData | null = null;
+  loginData?:LoginData;
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, this.gmailValidator]],
       name: ['',[Validators.required]],
     }, {validators: this.registerValidator});
 
@@ -27,25 +27,40 @@ export class InfoComponent {
     });
   }
 
+  gmailValidator(control: AbstractControl): ValidationErrors | null {
+    // On récupère la valeur du champs texte
+    const email = control.value;
+    // On regarde si le champs est remplis avant de faire la validation
+    if (!email) {
+      return null;
+    }
+    // On fait notre validation
+    let formValid = email.includes('@gmail.com');
+    // On mets les champs concernés en erreur
+    // Si le formulaire est invalide on retourne l'erreur
+    // Si le formulaire est valide on retourne null
+    return !formValid?{gmailError:true}:null;
+  }
+
   // Valider que le nom est present dans le email (c'est pas une bonne validation, mais c'est simplement pour pratiquer!)
-  registerValidator(control: AbstractControl): ValidationErrors | null {
+  registerValidator(form: AbstractControl): ValidationErrors | null {
     // On récupère les valeurs de nos champs textes
-    const email = control.get('email')?.value;
-    const name = control.get('name')?.value;
+    const email = form.get('email')?.value;
+    const name = form.get('name')?.value;
     // On regarde si les champs sont remplis avant de faire la validation
     if (!email || !name) {
       return null;
     }
     // On fait notre validation
     let formValid = email.includes(name);
-    // On mets les champs concernés en erreur
+    // On mets les champs concernés en erreur pour qu'il s'affichent en rouge
     if(!formValid) {
-      control.get('email')?.setErrors({nameInEmail:true});
-      control.get('name')?.setErrors({nameInEmail:true});
+      form.get('email')?.setErrors({nameInEmail:true});
+      form.get('name')?.setErrors({nameInEmail:true});
     } else {
       //S'il n'y a plus d'erreur, on les efface
-      control.get('email')?.setErrors(null);
-      control.get('name')?.setErrors(null);
+      form.get('email')?.setErrors(null);
+      form.get('name')?.setErrors(null);
     }
     // Si le formulaire est invalide on retourne l'erreur
     // Si le formulaire est valide on retourne null
